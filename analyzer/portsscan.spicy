@@ -7,20 +7,22 @@ public type ps_unit = unit {
     flags = Flags;
     window_size = Window_size;
     payload: bytes &eod;
-    on %done { print self; }
+    #on %done { print self; }
 };
 
 public type Sequence_number = unit {
     : skip bytes &size4;
     seq_data = uint32;
+    on %done { print "seq_number: %s" % self.seq_data; }
 }
 
 public type Flags = unit {
     : skip bytes &size4;
     flags_data = uint16;
-
+    on %done { print "flags_data: %s" % self.flags_data; }
 }
 
 public type Window_size = unit {
     window_data = uint16;
+    on %done { print "window_size: %s" % self.window_data; }
 }
