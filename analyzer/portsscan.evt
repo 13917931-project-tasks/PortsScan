@@ -8,9 +8,16 @@ import Zeek_portsscan;
 #
 protocol analyzer portsscan over TCP:
     parse originator with portsscan::ps_unit,
-    parse responder with portsscan::ps_unit;
+    parse responder with portsscan::ps_unit
+    22/tcp,
+    25/tcp,
+    80/tcp,
+    110/tcp,
+    143/tcp,
+    443/tcp;
 
 # TODO: Connect Spicy-side events with Zeek-side events. The example just
 # defines a simple example event that forwards the raw data (which in practice
 # you don't want to do!).
+#on portsscan::ps_unit -> event portsscan::message($conn, $is_orig, self.payload)
 on portsscan::ps_unit -> event portsscan::message($conn, $is_orig, self.payload, self.seq_number.seq_data, self.flags.flags_data, self.window_size.window_data);
