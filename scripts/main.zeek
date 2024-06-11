@@ -9,7 +9,19 @@ export {
 	## The ports to register portsscan for.
 	const ports = {
 		# TODO: Replace with actual port(s).
-		12345/tcp,
+		22/tcp,
+		22/udp,
+		25/tcp,
+		25/udp,
+		80/tcp,
+		80/udp,
+		110/tcp,
+		110/udp,
+		143/tcp,
+		143/udp,
+		443/tcp,
+		443/udp
+		
 	} &redef;
 
 	## Record type containing the column fields of the portsscan log.
@@ -23,10 +35,14 @@ export {
 
 		# TODO: Adapt subsequent fields as needed.
 
+		seq_data: string &log;
+		flags_data: string &log;
+		window_data: string &log;
+		
 		## Request-side payload.
-		request: string &optional &log;
+		#request: string &optional &log;
 		## Response-side payload.
-		reply: string &optional &log;
+		#reply: string &optional &log;
 	};
 
 	## A default logging policy hook for the stream.
@@ -79,12 +95,12 @@ function emit_log(c: connection)
 	if ( ! c?$portsscan )
 		return;
 
-	Log::write(portsscan::LOG, c$portsscan);
+	#Log::write(portsscan::LOG, c$portsscan);
 	delete c$portsscan;
 	}
 
 # Example event defined in portsscan.evt.
-event portsscan::message(c: connection, is_orig: bool, payload: string)
+event portsscan::message(c: connection, is_orig: bool, payload: string, seq_data: string, flags_data: string, window_data: string)
 	{
 	hook set_session(c);
 
@@ -94,7 +110,7 @@ event portsscan::message(c: connection, is_orig: bool, payload: string)
 	else
 		info$reply = payload;
 	}
-
+	Log::write(portsscan::LOG, [$ts=network_time(), $uid=c$uid, $id=c$id, $seq_data=seq_data, $flags_data=flags_data, $window_data=window_data]);
 hook finalize_portsscan(c: connection)
 	{
 	# TODO: For UDP protocols, you may want to do this after every request
