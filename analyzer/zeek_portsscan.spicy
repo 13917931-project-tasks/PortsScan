@@ -10,9 +10,9 @@ import zeek;
 # they are indeed parsing the right protocol. Pick a unit that's a little bit
 # into the parsing process here.
 #
-# on portsscan::SUITABLE_UNIT::%done {
-#     zeek::confirm_protocol();
-# }
+on portsscan::ps_unit::%done {
+     zeek::confirm_protocol();
+}
 
 # Any error bubbling up to the top unit will trigger a protocol rejection.
 on portsscan::ps_unit::%error {
