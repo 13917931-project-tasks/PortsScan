@@ -4,8 +4,8 @@ module portsscan;
 
 public type ps_unit = unit {
     seq_number = Sequence_number;
-    window_size = Window_size;
     flags = Flags;
+    window_size = Window_size;
     payload: bytes &eod;
     on %done { print self; }
 };
