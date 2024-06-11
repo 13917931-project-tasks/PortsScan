@@ -9,12 +9,12 @@ import Zeek_portsscan;
 protocol analyzer portsscan over TCP:
     parse originator with portsscan::ps_unit,
     parse responder with portsscan::ps_unit,
-    22/tcp,
-    25/tcp,
-    80/tcp,
-    110/tcp,
-    143/tcp,
-    443/tcp;
+    port 22/tcp,
+    port 25/tcp,
+    port 80/tcp,
+    port 110/tcp,
+    port 143/tcp,
+    port 443/tcp;
 
 # TODO: Connect Spicy-side events with Zeek-side events. The example just
 # defines a simple example event that forwards the raw data (which in practice
