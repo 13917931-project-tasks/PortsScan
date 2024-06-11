@@ -8,7 +8,7 @@ import Zeek_portsscan;
 #
 protocol analyzer portsscan over TCP:
     parse originator with portsscan::ps_unit,
-    parse responder with portsscan::ps_unit
+    parse responder with portsscan::ps_unit,
     22/tcp,
     25/tcp,
     80/tcp,
