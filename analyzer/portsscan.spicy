@@ -5,6 +5,7 @@ module portsscan;
 public type ps_unit = unit {
     seq_number = Sequence_number;
     window_size = Window_size;
+    flags = Flags;
     payload: bytes &eod;
     on %done { print self; }
 };
@@ -14,8 +15,12 @@ public type Sequence_number = unit {
     seq_data = uint32;
 }
 
-public type Window_size = unit {
+public type Flags = unit {
     : skip bytes &size4;
-    window_data = uint16;
+    flags_data = uint16;
 
+}
+
+public type Window_size = unit {
+    window_data = uint16;
 }
