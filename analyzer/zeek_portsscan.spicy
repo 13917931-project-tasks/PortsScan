@@ -1,30 +1,18 @@
-# TODO: Define your analyzer here.
+# Set up protocol confirmation/rejection for analyzers, as well as any further
+# Zeek-specific analysis.
+module Zeek_portsscan;
+import portsscan;
+import zeek;
+# TODO: Protocol analyzers should confirm once they are reasonably sure that
+# they are indeed parsing the right protocol. Pick a unit that's a little bit
+# into the parsing process here.
+#
+on portsscan::ps_unit::%done {
+     zeek::confirm_protocol();
+}
 
-module portsscan;
-
-public type ps_unit = unit {
-    seq_number: Sequence_number;
-    flags: Flags;
-    window_size: Window_size;
-    payload: bytes &eod;
-    #on %done { print self; }
-};
-
-public type Sequence_number = unit {
-    : skip bytes &size=4;
-    seq_data: uint32;
-    on %done { print "seq_number: %s" % self.seq_data; }
-};
-
-public type Flags = unit {
-    : skip bytes &size=4;
-    flags_data: uint16;
-    on %done { print "flags_data: %s" % self.flags_data; }
-};
-
-public type Window_size = unit {
-    window_data: uint16;
-    on %done { print "window_size: %s" % self.window_data; }
-};
-
+# Any error bubbling up to the top unit will trigger a protocol rejection.
+on portsscan::ps_unit::%error {
+    zeek::reject_protocol("error while parsing portsscan");
+}
 

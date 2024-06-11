@@ -3,26 +3,29 @@
 module portsscan;
 
 public type ps_unit = unit {
-    seq_number = Sequence_number;
-    flags = Flags;
-    window_size = Window_size;
+    seq_number: Sequence_number;
+    flags: Flags;
+    window_size: Window_size;
     payload: bytes &eod;
     #on %done { print self; }
 };
 
 public type Sequence_number = unit {
-    : skip bytes &size4;
-    seq_data = uint32;
+    : skip bytes &size=4;
+    var seq_data: string;
+    sndata: int32 {self.seq_data = "%d" % $$;}
     on %done { print "seq_number: %s" % self.seq_data; }
-}
+};
 
 public type Flags = unit {
-    : skip bytes &size4;
-    flags_data = uint16;
+    : skip bytes &size=4;
+    var flags_data:string;
+    fdata: int16 {self.flags_data = "%d" % $$;}
     on %done { print "flags_data: %s" % self.flags_data; }
-}
+};
 
 public type Window_size = unit {
-    window_data = uint16;
+    var window_data:string;
+    wdata: int16 {self.window_data="%d" % $$;}
     on %done { print "window_size: %s" % self.window_data; }
-}
+};
