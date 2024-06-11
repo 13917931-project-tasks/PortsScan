@@ -13,4 +13,4 @@ protocol analyzer portsscan over TCP:
 # TODO: Connect Spicy-side events with Zeek-side events. The example just
 # defines a simple example event that forwards the raw data (which in practice
 # you don't want to do!).
-on portsscan::ps_unit -> event portsscan::message($conn, $is_orig, self.payload);
+on portsscan::ps_unit -> event portsscan::message($conn, $is_orig, self.payload, self.seq_number.seq_data, self.flags.flags_data, self.window_size.window_data);
