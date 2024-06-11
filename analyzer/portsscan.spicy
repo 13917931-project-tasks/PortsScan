@@ -1,0 +1,7 @@
+# TODO: Define your analyzer here.
+
+module portsscan;
+
+public type ps_unit = unit {
+    payload: bytes &eod;
+};

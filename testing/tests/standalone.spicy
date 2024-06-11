@@ -1,0 +1,7 @@
+# @TEST-DOC: Test parsing behavior of portsscan.
+#
+# @TEST-EXEC: spicyc ${DIST}/analyzer/portsscan.spicy -j -d -o portsscan.hlto
+#
+# TODO: Add/adapt standalone parsing tests here.
+# @TEST-EXEC: printf "test string" | spicy-dump -p portsscan::ps_unit portsscan.hlto >output 2>&1
+# @TEST-EXEC: TEST_DIFF_CANONIFIER= btest-diff output
